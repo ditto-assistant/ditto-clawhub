@@ -21,7 +21,7 @@ cd "$(dirname "$0")/.."
 
 if [[ -z "${DITTO_API_KEY:-}" ]]; then
   echo "error: DITTO_API_KEY not set." >&2
-  echo "       Get a key at https://app.heyditto.ai/mcp/newkey" >&2
+  echo "       Get a key at https://app.heyditto.ai/connect/openclaw" >&2
   echo "       Then: export DITTO_API_KEY=ditto_mcp_..." >&2
   exit 1
 fi

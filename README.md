@@ -20,7 +20,7 @@ OpenClaw user
   │
   ├─ Skills UI: "Install mcporter (node)" button   (one-click npm install)
   │
-  ├─ open https://app.heyditto.ai/mcp/newkey       (one-page key creation)
+  ├─ open https://app.heyditto.ai/connect/openclaw       (one-page key creation)
   │     export DITTO_API_KEY=…
   │
   └─ mcporter config add ditto …                   (one command, one time)
@@ -36,7 +36,7 @@ Auth is API key (`DITTO_API_KEY` env), not OAuth. The browser-OAuth flow lives i
 - [x] mcporter build verified end-to-end against `api.heyditto.ai/mcp` (5-platform Bun-compiled binaries, 6 tools, live calls work)
 - [x] `publish/` bundle ready to drag into the ClawHub publish form
 - [ ] `ditto` slug claimed on ClawHub by `@ditto` org (manual; UI form upload)
-- [ ] Onboarding URL `app.heyditto.ai/mcp/newkey` live ([ditto-app#1217](https://github.com/ditto-assistant/ditto-app/issues/1217))
+- [ ] Onboarding URL `app.heyditto.ai/connect/openclaw` live ([ditto-app#1217](https://github.com/ditto-assistant/ditto-app/issues/1217))
 
 ## Layout
 
@@ -79,7 +79,7 @@ ClawHub publishes content as **MIT-0**. The source repo is **MIT** to match othe
 ## Related
 
 - [ditto-app#1212](https://github.com/ditto-assistant/ditto-app/issues/1212) — parent design issue
-- [ditto-app#1217](https://github.com/ditto-assistant/ditto-app/issues/1217) — onboarding URL (`/mcp/newkey`)
+- [ditto-app#1217](https://github.com/ditto-assistant/ditto-app/issues/1217) — onboarding URL (`/connect/openclaw`)
 - [openclaw/openclaw](https://github.com/openclaw/openclaw) — the assistant
 - [openclaw/clawhub](https://github.com/openclaw/clawhub) — skill registry CLI + docs
 - [openclaw/mcporter](https://github.com/openclaw/mcporter) — MCP runtime / CLI generator

@@ -49,7 +49,7 @@ Reach for Ditto memory whenever the user:
 
 Tell the user:
 
-> Get a key at **https://app.heyditto.ai/mcp/newkey** (one-page sign-in + copy), then paste it back to me.
+> Get a key at **https://app.heyditto.ai/connect/openclaw** (one-page sign-in + copy), then paste it back to me.
 
 When the user pastes a key (looks like `ditto_mcp_…`), run **one** command:
 
@@ -141,5 +141,5 @@ All commands emit JSON by default — pipe through `jq` for shaping. `ditto conf
 - **CLI on npm:** https://www.npmjs.com/package/@heyditto/cli (`npm i -g @heyditto/cli`)
 - **Skill repo:** https://github.com/ditto-assistant/ditto-clawhub
 - **CLI repo:** https://github.com/ditto-assistant/ditto-cli
-- **Get a key:** https://app.heyditto.ai/mcp/newkey
+- **Get a key:** https://app.heyditto.ai/connect/openclaw
 - **Account / backend support:** support@heyditto.ai

@@ -70,7 +70,7 @@ ditto network <pairId from step 1> --limit 30
 
 If `ditto status` reports `MISSING (source: none)` or any command exits with `error: no Ditto API key configured`:
 
-1. Tell the user: "Get a key at **https://app.heyditto.ai/mcp/newkey** and paste it here."
+1. Tell the user: "Get a key at **https://app.heyditto.ai/connect/openclaw** and paste it here."
 2. When the user pastes a `ditto_mcp_…` key, run **one** command:
    ```bash
    ditto login <key>

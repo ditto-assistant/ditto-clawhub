@@ -20,7 +20,7 @@ ditto --version
 
 ## 2. Get a key + log in
 
-Visit **https://app.heyditto.ai/mcp/newkey** — one-page sign-in (GitHub / Google / email), click **New key**, copy.
+Visit **https://app.heyditto.ai/connect/openclaw** — one-page sign-in (GitHub / Google / email), click **New key**, copy.
 
 Then:
 
@@ -63,7 +63,7 @@ OpenClaw will now use Ditto memory automatically when the conversation calls for
 | Symptom | Fix |
 |---|---|
 | `ditto: command not found` | Reopen your shell or run `which npm` to confirm the npm prefix is on `PATH`. |
-| `error: no Ditto API key configured` | Run `ditto login <key>` (key from https://app.heyditto.ai/mcp/newkey). |
+| `error: no Ditto API key configured` | Run `ditto login <key>` (key from https://app.heyditto.ai/connect/openclaw). |
 | `ditto status` shows `source: env` but you wanted `config` | The env var overrides. Run `unset DITTO_API_KEY` (and remove from `~/.zshrc` / `~/.bashrc` if persisted). |
 | Connection failures | Verify the key with `ditto status`; rotate via `ditto logout && ditto login <new-key>`. |
 
