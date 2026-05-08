@@ -11,7 +11,6 @@ metadata:
         "requires":
           {
             "bins": ["ditto"],
-            "env": ["DITTO_API_KEY"],
           },
         "install":
           [
@@ -31,7 +30,7 @@ metadata:
 
 Ditto is a personal-memory assistant. These tools save, search, and traverse the user's long-term memory and topic graph at https://heyditto.ai.
 
-The skill ships a single binary (`ditto`, from [`@heyditto/cli`](https://www.npmjs.com/package/@heyditto/cli)) that the agent shells out to. No mcporter required.
+The skill ships a single binary (`ditto`, from [`@heyditto/cli`](https://www.npmjs.com/package/@heyditto/cli)). Auth is via API key — stored in `~/.config/heyditto/cli/config.json` (preferred) or `DITTO_API_KEY` env (override).
 
 ## When to use
 
@@ -42,18 +41,37 @@ Reach for Ditto memory whenever the user:
 - Asks a question best answered from their prior context, not general knowledge.
 - References a topic, person, project, or thread that isn't in this conversation but might be in their memory.
 
-## One-time setup (the user does this once)
+## Auth — the two paths
 
-1. **Install the CLI** — openclaw will show a one-click button labeled "Install Ditto CLI (npm)" the first time the skill loads. That runs `npm install -g @heyditto/cli`.
-2. **Get an API key** at https://app.heyditto.ai/mcp/newkey (one-page flow, copy the key).
-3. **Export it** in their shell:
+**Always check `ditto status` first.** It prints `api key: set (source: env|config)` or `MISSING (source: none)`.
 
-   ```bash
-   export DITTO_API_KEY=ditto_mcp_…
-   # add to ~/.zshrc or ~/.bashrc to persist
-   ```
+### If the key is missing
 
-4. **Verify** with `ditto status` — should print the endpoint, "api key: set", and the 6 tool names.
+Tell the user:
+
+> Get a key at **https://app.heyditto.ai/mcp/newkey** (one-page sign-in + copy), then paste it back to me.
+
+When the user pastes a key (looks like `ditto_mcp_…`), run **one** command:
+
+```bash
+ditto login <key>
+```
+
+That writes the key to `~/.config/heyditto/cli/config.json` (mode 0600) and persists across shells. No env-var editing required. Confirm with `ditto status` — should now show `source: config`.
+
+### If the user prefers env vars (advanced)
+
+```bash
+export DITTO_API_KEY=ditto_mcp_…
+```
+
+Env always overrides the saved key. To stop using the env override: `unset DITTO_API_KEY`.
+
+### Logout
+
+```bash
+ditto logout            # deletes ~/.config/heyditto/cli/config.json
+```
 
 ## Tools
 
@@ -69,18 +87,18 @@ ditto save "User prefers TypeScript over JavaScript for new projects." --source 
 
 ### `ditto search <query>...`
 
-Semantic search across the user's memories with learned retrieval weights. **Multiple positional args become an array of queries** — pass several to broaden recall. Returns lightweight previews ranked by composite score.
+Semantic search across memories with learned retrieval weights. **Multiple positional args become an array of queries** — pass several to broaden recall. Returns lightweight previews ranked by composite score.
 
 ```bash
 ditto search "typescript preferences"
 ditto search "typescript" "language choices"
 ```
 
-Use `ditto fetch` afterwards if you need the full conversation text.
+Use `ditto fetch` afterwards if you need full conversation text.
 
 ### `ditto fetch <pair-id>...`
 
-Fetch the full conversation text (User + Ditto turns) for memory pairs by id. Use after `ditto search` returns previews.
+Fetch the full conversation text (User + Ditto turns) for memory pair ids returned by `ditto search`.
 
 ```bash
 ditto fetch 3a1084ae-235a-433d-9493-2335a0dfeb57
@@ -96,7 +114,7 @@ ditto subjects "memory architecture" --top-k 5
 
 ### `ditto memories <subject-id>...`
 
-Get memory previews scoped to specific subjects. Use after `ditto subjects` when you want depth on a known topic instead of broad semantic search.
+Get memory previews scoped to specific subjects. Use after `ditto subjects` when you want depth on a known topic.
 
 ```bash
 ditto memories 3a1084ae-235a-433d-9493-2335a0dfeb57
@@ -104,7 +122,7 @@ ditto memories 3a1084ae-235a-433d-9493-2335a0dfeb57
 
 ### `ditto network <pair-id> [--limit <n>]`
 
-Traverse a memory's network — related memories connected via shared subjects. Default `limit` is 20, max 50. Use for "show me everything connected to X" prompts.
+Traverse a memory's network — related memories connected via shared subjects. Default `limit` is 20, max 50.
 
 ```bash
 ditto network 3a1084ae-235a-433d-9493-2335a0dfeb57 --limit 30
@@ -118,9 +136,10 @@ All commands emit JSON by default — pipe through `jq` for shaping. `ditto conf
 
 `ditto status` prints the live tool list straight from the MCP — trust it over this file if anything drifts.
 
-## Source
+## Source + support
 
-- CLI: https://www.npmjs.com/package/@heyditto/cli (`npm i -g @heyditto/cli`)
-- Skill repo: https://github.com/ditto-assistant/ditto-clawhub
-- CLI repo: https://github.com/ditto-assistant/ditto-cli
-- Get a key: https://app.heyditto.ai/mcp/newkey
+- **CLI on npm:** https://www.npmjs.com/package/@heyditto/cli (`npm i -g @heyditto/cli`)
+- **Skill repo:** https://github.com/ditto-assistant/ditto-clawhub
+- **CLI repo:** https://github.com/ditto-assistant/ditto-cli
+- **Get a key:** https://app.heyditto.ai/mcp/newkey
+- **Account / backend support:** support@heyditto.ai

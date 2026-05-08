@@ -66,9 +66,23 @@ ditto network <pairId from step 1> --limit 30
 | `ditto memories <id>...` | one or more subject ids | — |
 | `ditto network <id>` | pair id | `--limit <n>` (default 20, max 50) |
 
+## Pattern 5 — first-run, no key configured
+
+If `ditto status` reports `MISSING (source: none)` or any command exits with `error: no Ditto API key configured`:
+
+1. Tell the user: "Get a key at **https://app.heyditto.ai/mcp/newkey** and paste it here."
+2. When the user pastes a `ditto_mcp_…` key, run **one** command:
+   ```bash
+   ditto login <key>
+   ```
+3. Confirm with `ditto status` (should show `source: config`), then retry the original command.
+
+Do **not** ask the user to edit `~/.zshrc` or set env vars. `ditto login` persists across shells without that step.
+
 ## When something fails
 
-- **`error: DITTO_API_KEY is not set`** → tell the user to visit https://app.heyditto.ai/mcp/newkey and export the key.
-- **Connection failed** → check `ditto status` for the active endpoint; verify the key is the right one for that environment.
-- **Empty results** → user may not have memories matching the query. Suggest they save the fact with `ditto save` if it's worth keeping.
+- **`error: no Ditto API key configured`** → see Pattern 5 above. Run `ditto login <key>`.
+- **Connection failed** → check `ditto status`; rotate via `ditto logout && ditto login <new-key>`.
+- **Empty results** → user may not have memories matching the query. Suggest they save the fact with `ditto save`.
 - **Schema mismatch** → run `ditto status` to see live tool names; consult `ditto help` for current flags.
+- **Anything else** → support@heyditto.ai
