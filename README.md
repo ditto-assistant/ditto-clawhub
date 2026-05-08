@@ -4,8 +4,6 @@ The Ditto skill for [ClawHub](https://clawhub.ai) / [OpenClaw](https://github.co
 
 > **Sibling repos:** the actual `ditto` CLI binary lives in [**`ditto-cli`**](https://github.com/ditto-assistant/ditto-cli) (published as [**`@heyditto/cli`**](https://www.npmjs.com/package/@heyditto/cli) on npm). This repo is just the skill bundle that teaches the OpenClaw agent how and when to invoke it.
 
-> **Tracking:** [ditto-assistant/ditto-app#1212](https://github.com/ditto-assistant/ditto-app/issues/1212)
-
 ## What gets uploaded to ClawHub
 
 The `publish/` folder. Three text files, ~250 lines total:
@@ -61,7 +59,7 @@ The browser-OAuth flow lives separately in [`ditto-mcp`](https://github.com/ditt
 - [x] `publish/` bundle finalized — install spec points at `@heyditto/cli`, body teaches the `ditto login <key>` flow on first-run-no-key
 - [x] Cross-platform standalone binaries verified (`scripts/build-cli.sh`; forward-looking, not used by the skill)
 - [ ] `ditto` slug claimed on ClawHub by `@ditto` org (drag `publish/` into clawhub.ai/publish)
-- [ ] `https://app.heyditto.ai/connect/openclaw` live ([ditto-app#1217](https://github.com/ditto-assistant/ditto-app/issues/1217))
+- [ ] `https://app.heyditto.ai/connect/openclaw` live
 
 ## Layout
 
@@ -117,8 +115,6 @@ First build per target downloads ~30MB of platform-specific Bun runtime; cached 
 
 - [`ditto-cli`](https://github.com/ditto-assistant/ditto-cli) — the source of `@heyditto/cli`. Where `ditto login`, `ditto save`, etc. are implemented.
 - [`ditto-mcp`](https://github.com/ditto-assistant/ditto-mcp) — sibling stdio MCP bridge (`@heyditto/mcp`) with browser-OAuth, for Claude Desktop / Cursor.
-- [ditto-app#1212](https://github.com/ditto-assistant/ditto-app/issues/1212) — parent design issue
-- [ditto-app#1217](https://github.com/ditto-assistant/ditto-app/issues/1217) — branded `/connect/openclaw` onboarding route (alongside generic `/mcp/newkey`)
 - [openclaw/openclaw](https://github.com/openclaw/openclaw) — the assistant
 - [openclaw/clawhub](https://github.com/openclaw/clawhub) — skill registry CLI + docs
 - [openclaw/openclaw/skills/mcporter/SKILL.md](https://github.com/openclaw/openclaw/blob/main/skills/mcporter/SKILL.md) — canonical skill template we modeled after
