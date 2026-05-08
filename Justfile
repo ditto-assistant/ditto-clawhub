@@ -1,20 +1,16 @@
 default:
     @just --list
 
-# Compile per-platform CLI binaries from the live Ditto MCP via mcporter.
+# Cross-compile the standalone Ditto CLI binary for all 5 platforms into dist/.
+# Requires DITTO_API_KEY in env (mcporter connects to the live MCP at build time).
 build:
     bash scripts/build-cli.sh
 
-# Smoke-test the CLI against the configured MCP (requires DITTO_API_KEY).
+# Smoke-test the live MCP via mcporter (DITTO_API_KEY required, ditto registered in mcporter config).
 dev:
     bunx mcporter list ditto
 
-# Stub publish — claims/refreshes the `ditto` slug on ClawHub.
-# Use this BEFORE the real CLI build is ready, just to hold the slug.
-publish-stub:
-    bash scripts/publish-stub.sh
-
-# Real release. Bump version in package.json first.
-# Usage: just publish 0.1.0
-publish version:
-    bash scripts/publish-release.sh {{version}}
+# Publish ./publish to ClawHub as version <version>.
+# Usage: just publish 1.0.0 ["optional changelog"]
+publish version changelog="Release":
+    bash scripts/publish.sh {{version}} {{changelog}}
