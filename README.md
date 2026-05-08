@@ -11,13 +11,13 @@ Wraps the Ditto MCP (`https://api.heyditto.ai/mcp`) into a ClawHub-installable s
 Private + WIP. Public + v0.1.0 once:
 
 - [ ] `ditto` slug claimed on ClawHub (stub v0.0.1)
-- [ ] mcporter build verified end-to-end against `api.heyditto.ai/mcp`
+- [x] mcporter build verified end-to-end against `api.heyditto.ai/mcp` (62MB Bun-compiled binary, 6 tools, live calls work)
 - [ ] Onboarding URL [`app.heyditto.ai/mcp/newkey`](https://app.heyditto.ai/mcp/newkey) live ([ditto-app#1217](https://github.com/ditto-assistant/ditto-app/issues/1217))
 
 ## Architecture
 
 ```
-OpenClaw  →  ditto CLI (mcporter)  →  https://api.heyditto.ai/mcp  (X-API-Key)
+OpenClaw  →  ditto CLI (mcporter)  →  https://api.heyditto.ai/mcp  (Authorization: Bearer)
                   ▲
                   │ first run, no DITTO_API_KEY
                   └── https://app.heyditto.ai/mcp/newkey
@@ -30,7 +30,7 @@ Auth: API key (`DITTO_API_KEY` env), not OAuth. The browser-OAuth flow lives in 
 | Path | Purpose |
 |---|---|
 | `SKILL.md` | ClawHub entrypoint — frontmatter + agent instructions |
-| `mcporter.config.ts` | Points mcporter at `api.heyditto.ai/mcp` with `X-API-Key` header |
+| `config/mcporter.json` | Points mcporter at `api.heyditto.ai/mcp` with `Authorization: Bearer ${DITTO_API_KEY}` |
 | `Justfile` | `just build`, `just publish-stub`, `just publish` |
 | `scripts/` | Build + publish shell helpers |
 | `dist/` (gitignored) | mcporter-compiled per-platform CLI binaries |

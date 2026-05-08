@@ -1,5 +1,7 @@
 node_modules/
 dist/
+tmp/
+ditto.ts
 .env
 .env.local
 .DS_Store

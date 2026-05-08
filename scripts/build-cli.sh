@@ -1,14 +1,14 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-# Generate per-platform Ditto CLI binaries from the live MCP via mcporter.
-# See https://github.com/openclaw/mcporter/blob/main/docs/cli-reference.md
+# Generate the Ditto CLI binary from the live MCP via mcporter.
+# Requires DITTO_API_KEY in env (mcporter connects at build time to embed
+# tool schemas). Source ./.env.local first if you have one.
+# See https://github.com/openclaw/mcporter
 
 bunx mcporter generate-cli \
-  --command "https://api.heyditto.ai/mcp" \
-  --name ditto \
-  --bundle \
-  --compile
+  --server ditto \
+  --compile ./dist/ditto
 
 echo
-echo "Built: dist/ditto-*"
+echo "Built: ./dist/ditto"

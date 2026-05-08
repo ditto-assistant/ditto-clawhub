@@ -14,18 +14,18 @@ metadata:
     primaryEnv: DITTO_API_KEY
     cliHelp: |
       ditto --help
-      Tools:
-        save_memory                    Store a new memory
-        search_memories                Semantic search across memories
-        fetch_memories                 Fetch by id(s)
-        search_subjects                Find topic clusters
-        search_memories_in_subjects    Search within specific subjects
-        get_memory_network             Traverse the memory graph
+      Tools (kebab-case CLI; underlying MCP tools use snake_case):
+        save-memory                    Store a new memory pair
+        search-memories                Semantic search across memories
+        fetch-memories                 Fetch full memory bodies by pair id
+        search-subjects                Search the subject/topic graph
+        search-memories-in-subjects    Memories scoped to specific subjects
+        get-memory-network             Memory + related memories via shared subjects
 ---
 
 # Ditto
 
-Ditto is a personal-memory assistant. These tools let you save, search, and traverse the user's long-term memory and topic graph.
+Ditto is a personal-memory assistant. These tools save, search, and traverse the user's long-term memory and topic graph.
 
 ## When to use
 
@@ -44,32 +44,34 @@ That page does one thing: signs them in and creates an MCP API key with a copy b
 
 ## Tools
 
-### `ditto save_memory <text>`
+Memories are stored as **pairs** (one User turn + one Ditto turn) identified by a `pair_id`. Subjects are graph nodes for topics, identified by `subject_id`.
 
-Persist a memory. Use for explicit user requests to save, and proactively when the user shares durable preferences, decisions, relationships, or facts.
+### `ditto save-memory --content <text> [--source <kind>] [--source-context <ctx>]`
 
-### `ditto search_memories <query> [--limit N]`
+Persist a memory pair from an external source. Use for explicit user requests to save, and proactively when the user shares durable preferences, decisions, relationships, or facts. `--source` defaults to `mcp`; pass `cursor`, `document`, `note`, etc. when relevant. `--source-context` can hold a file path, URL, or project name.
 
-Semantic search across all of the user's memories. Use for "what did I say about X", "do I have anything on Y", or to ground an answer in their history.
+### `ditto search-memories --queries <q1>,<q2>,…`
 
-### `ditto fetch_memories <id> [<id>…]`
+Semantic search across the user's memories using learned retrieval weights. Accepts an **array** of queries — pass multiple comma-separated to broaden recall. Returns lightweight previews ranked by composite score.
 
-Fetch full memory bodies by id, e.g. after `search_memories` returns matches.
+### `ditto fetch-memories --pair-ids <id1>,<id2>,…`
 
-### `ditto search_subjects <query>`
+Fetch the full conversation text for memory pairs (User + Ditto turns) by id. Use after `search-memories` returns previews and you need full content.
 
-Search the topic/subject graph instead of individual memories — useful when you want clusters or themes rather than one-off facts.
+### `ditto search-subjects --query <text> [--top-k <n>]`
 
-### `ditto search_memories_in_subjects <subject> <query>`
+Search the subject graph. Returns subject IDs you can feed into `search-memories-in-subjects`. Default `top-k` is 10, max 100.
 
-Combine subject filtering with semantic search. Use when you know the topic but want a specific memory inside it.
+### `ditto search-memories-in-subjects --subject-ids <id1>,<id2>,…`
 
-### `ditto get_memory_network <subject>`
+Get memory previews scoped to specific subjects. Useful when you want depth on a known topic instead of broad semantic search.
 
-Traverse related subjects + memories for graph-style exploration ("show me everything connected to X").
+### `ditto get-memory-network --pair-id <id> [--limit <n>]`
+
+Traverse a memory's network — related memories connected via shared subjects. Default `limit` is 20, max 50. Use for "show me everything connected to X" prompts.
 
 ## Notes
 
-- Calls go to `https://api.heyditto.ai/mcp` over HTTPS with the `X-API-Key` header.
-- The CLI is generated from the live MCP via [mcporter](https://github.com/openclaw/mcporter); the tool list above mirrors what `mcporter list ditto` reports at runtime.
+- All calls go to `https://api.heyditto.ai/mcp` over HTTPS with `Authorization: Bearer ${DITTO_API_KEY}`.
+- The CLI is generated from the live MCP via [mcporter](https://github.com/openclaw/mcporter). Tool schemas are embedded at build time — `ditto --help` and `ditto <tool> --help` are authoritative if anything here drifts.
 - Source: https://github.com/ditto-assistant/ditto-clawhub

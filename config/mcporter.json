@@ -1,0 +1,10 @@
+{
+  "mcpServers": {
+    "ditto": {
+      "url": "https://api.heyditto.ai/mcp",
+      "headers": {
+        "Authorization": "Bearer ${DITTO_API_KEY}"
+      }
+    }
+  }
+}
