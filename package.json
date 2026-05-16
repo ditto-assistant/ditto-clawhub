@@ -1,7 +1,7 @@
 {
   "name": "ditto-clawhub",
   "version": "0.0.1",
-  "description": "Ditto skill for ClawHub / OpenClaw — wraps the Ditto MCP into an installable CLI.",
+  "description": "Ditto skill for ClawHub / OpenClaw - wraps the Ditto MCP into an installable CLI.",
   "private": true,
   "type": "module",
   "license": "MIT",
@@ -10,7 +10,9 @@
     "url": "git+https://github.com/ditto-assistant/ditto-clawhub.git"
   },
   "homepage": "https://github.com/ditto-assistant/ditto-clawhub",
-  "bugs": "https://github.com/ditto-assistant/ditto-app/issues/1212",
+  "bugs": {
+    "url": "https://github.com/ditto-assistant/ditto-clawhub/issues"
+  },
   "scripts": {
     "build": "bash scripts/build-cli.sh",
     "dev": "bunx mcporter list ditto",
