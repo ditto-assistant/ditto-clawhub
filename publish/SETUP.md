@@ -21,17 +21,21 @@ ditto --version
 Use `@heyditto/cli` 1.2.0 or newer for the current `fetch --memory-format`,
 `update`, and `publish` commands.
 
-## 2. Get a key + log in
+## 2. Create a claimable agent account
 
-Visit **https://app.heyditto.ai/connect/openclaw** — one-page sign-in (GitHub / Google / email), click **New key**, copy.
+No human setup is required. Run:
 
-Then:
+```bash
+ditto init --agent --agent-caller openclaw --json
+```
+
+That creates a free temporary agent account, writes the key to `~/.config/heyditto/cli/config.json` (mode 0600), and prints a short `claimURL` for later human ownership. Share the `claimURL`, not the `ditto_mcp_...` API key. Claiming keeps the same key and memories intact.
+
+Already have a key? You can still run:
 
 ```bash
 ditto login <paste-key>
 ```
-
-That writes the key to `~/.config/heyditto/cli/config.json` (mode 0600). Persists across shells. Done.
 
 > Prefer env vars? `export DITTO_API_KEY=ditto_mcp_…` works too — env always wins over the saved key.
 
@@ -69,7 +73,7 @@ OpenClaw will now use Ditto memory automatically when the conversation calls for
 |---|---|
 | `ditto: command not found` | Reopen your shell or run `which npm` to confirm the npm prefix is on `PATH`. |
 | `Unknown option '--memory-format'` or `Unknown command: update/publish` | Update the CLI with `npm install -g @heyditto/cli@latest`. |
-| `error: no Ditto API key configured` | Run `ditto login <key>` (key from https://app.heyditto.ai/connect/openclaw). |
+| `error: no Ditto API key configured` | Run `ditto init --agent --agent-caller openclaw --json` for no-human setup, or `ditto login <key>` if you already have a key. |
 | `ditto status` shows `source: env` but you wanted `config` | The env var overrides. Run `unset DITTO_API_KEY` (and remove from `~/.zshrc` / `~/.bashrc` if persisted). |
 | Connection failures | Verify the key with `ditto status`; rotate via `ditto logout && ditto login <new-key>`. |
 

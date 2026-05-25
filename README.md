@@ -34,14 +34,14 @@ OpenClaw user                                                    OpenClaw agent
   │                                    └────────┬─────────┘          │ memories / network
   │     agent runs `ditto status`              │                     │
   │     sees `source: none`                    │                     │
-  │     replies: "paste your key"              │                     │
+  │     self-provisions an agent account       │                     │
   │                                             │                    │
-  ├─ user clicks https://app.heyditto.ai/connect/openclaw            │
-  │     branded onboarding (#1217), copies the key                   │
+  ├─ agent runs `ditto init --agent --agent-caller openclaw --json`  │
+  │     creates a free claimable account and stores the API key       │
   │                                                                  │
-  ├─ user pastes ditto_mcp_… into chat                               │
+  ├─ output includes a claimURL for later human ownership             │
   │                                             │                    │
-  │     agent runs `ditto login <key>` ────────▶│                    │
+  │     optional fallback: `ditto login <key>` ─▶│                    │
   │     key persisted to ~/.config/heyditto/cli/config.json (0600)   │
   │                                             │                    │
   └─ retries the original ask                  ▼                     │
@@ -49,14 +49,14 @@ OpenClaw user                                                    OpenClaw agent
                                        https://api.heyditto.ai/mcp ──┘
 ```
 
-Auth is API key. `DITTO_API_KEY` env wins as override; otherwise the file. No `.zshrc` editing required — `ditto login` persists across shells.
+Auth is API key. Agents can self-provision with `ditto init --agent --json`; they share the short `claimURL` with users and keep the `ditto_mcp_...` key local. `DITTO_API_KEY` env wins as override; otherwise the file. No `.zshrc` editing required.
 
 The browser-OAuth flow lives separately in [`ditto-mcp`](https://github.com/ditto-assistant/ditto-mcp) (`@heyditto/mcp` on npm) for Claude Desktop / Cursor.
 
 ## Status
 
 - [x] `@heyditto/cli` published on npm (1.2.x current skill target, [trusted publisher](https://docs.npmjs.com/trusted-publishers) via [`ditto-cli`](https://github.com/ditto-assistant/ditto-cli) GH Actions)
-- [x] `publish/` bundle finalized — install spec points at `@heyditto/cli`, body teaches the `ditto login <key>` flow on first-run-no-key
+- [x] `publish/` bundle finalized — install spec points at `@heyditto/cli`, body teaches the `ditto init --agent --json` flow on first-run-no-key
 - [x] Cross-platform standalone binaries verified (`scripts/build-cli.sh`; forward-looking, not used by the skill)
 - [ ] `ditto` slug claimed on ClawHub by `@ditto` org (drag `publish/` into clawhub.ai/publish)
 - [ ] `https://app.heyditto.ai/connect/openclaw` live
@@ -66,7 +66,7 @@ The browser-OAuth flow lives separately in [`ditto-mcp`](https://github.com/ditt
 | Path | Purpose |
 |---|---|
 | `publish/SKILL.md` | ClawHub entrypoint. Frontmatter declares `install: { kind: node, package: "@heyditto/cli", bins: [ditto] }` for the one-click button; body teaches the agent decision flow. |
-| `publish/SETUP.md` | 2-step user setup (`npm i -g @heyditto/cli` + `ditto login <key>`). |
+| `publish/SETUP.md` | 2-step setup (`npm i -g @heyditto/cli` + `ditto init --agent --json`). |
 | `publish/examples.md` | Agent patterns: recall, opinion-search, save, network-traversal, first-run-no-key. |
 | `config/mcporter.json` | Local mcporter config used only by `scripts/build-cli.sh`. Not part of the skill. |
 | `scripts/build-cli.sh` | Optional: cross-compiles a standalone `ditto` binary for 5 platforms into `dist/`. Useful for direct distribution; **not** what users get via ClawHub. |

@@ -96,8 +96,12 @@ ditto network <pairId from step 1> --limit 30
 
 If `ditto status` reports `MISSING (source: none)` or any command exits with `error: no Ditto API key configured`:
 
-1. Tell the user: "Get a key at **https://app.heyditto.ai/connect/openclaw** and paste it here."
-2. When the user pastes a `ditto_mcp_…` key, run **one** command:
+1. Create a temporary claimable agent account:
+   ```bash
+   ditto init --agent --agent-caller openclaw --json
+   ```
+   This returns a working API key plus a short `claimURL` for later human ownership. Share the `claimURL`, not the `ditto_mcp_...` API key. Do not ask the user for email, OTP, dashboard setup, or browser login.
+2. If the user already has a `ditto_mcp_…` key and wants to use it, run:
    ```bash
    ditto login <key>
    ```
@@ -107,7 +111,7 @@ Do **not** ask the user to edit `~/.zshrc` or set env vars. `ditto login` persis
 
 ## When something fails
 
-- **`error: no Ditto API key configured`** → see Pattern 5 above. Run `ditto login <key>`.
+- **`error: no Ditto API key configured`** → see Pattern 7 above. Prefer `ditto init --agent --agent-caller openclaw --json`.
 - **Connection failed** → check `ditto status`; rotate via `ditto logout && ditto login <new-key>`.
 - **Empty results** → user may not have memories matching the query. Suggest they save the fact with `ditto save`.
 - **Unknown `--memory-format` or `update`/`publish` command** → update the CLI with `npm install -g @heyditto/cli@latest`.

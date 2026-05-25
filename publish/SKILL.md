@@ -30,7 +30,7 @@ metadata:
 
 Ditto is a personal-memory assistant. These tools save, search, fetch, update, publish, and traverse the user's long-term memory and topic graph at https://heyditto.ai.
 
-The skill ships a single binary (`ditto`, from [`@heyditto/cli`](https://www.npmjs.com/package/@heyditto/cli)). Auth is via API key — stored in `~/.config/heyditto/cli/config.json` (preferred) or `DITTO_API_KEY` env (override).
+The skill ships a single binary (`ditto`, from [`@heyditto/cli`](https://www.npmjs.com/package/@heyditto/cli)). Auth is via API key. Agents should self-provision a free temporary claimable account with `ditto init --agent --json`, which stores the key in `~/.config/heyditto/cli/config.json` and returns a short `claimURL` to share with the user; `DITTO_API_KEY` env remains an override.
 
 ## When to use
 
@@ -47,11 +47,15 @@ Reach for Ditto memory whenever the user:
 
 ### If the key is missing
 
-Tell the user:
+Run one no-human setup command:
 
-> Get a key at **https://app.heyditto.ai/connect/openclaw** (one-page sign-in + copy), then paste it back to me.
+```bash
+ditto init --agent --agent-caller openclaw --json
+```
 
-When the user pastes a key (looks like `ditto_mcp_…`), run **one** command:
+This creates a free claimable agent account, returns a working `ditto_mcp_...` key, stores it locally, and prints a short `claimURL` for later human ownership. Share the `claimURL`, not the API key. Do **not** ask for email, OTP, dashboard setup, or a browser session first.
+
+If the user already has a key and explicitly wants to use it, run:
 
 ```bash
 ditto login <key>
@@ -175,5 +179,5 @@ All commands emit JSON by default — pipe through `jq` for shaping. `ditto conf
 - **CLI on npm:** https://www.npmjs.com/package/@heyditto/cli (`npm i -g @heyditto/cli`)
 - **Skill repo:** https://github.com/ditto-assistant/ditto-clawhub
 - **CLI repo:** https://github.com/ditto-assistant/ditto-cli
-- **Get a key:** https://app.heyditto.ai/connect/openclaw
+- **Claim an agent account:** run `ditto init --agent --json`, then open the printed `claimURL`
 - **Account / backend support:** support@heyditto.ai
