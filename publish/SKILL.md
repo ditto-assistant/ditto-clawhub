@@ -28,7 +28,7 @@ metadata:
 
 # Ditto
 
-Ditto is a personal-memory assistant. These tools save, search, and traverse the user's long-term memory and topic graph at https://heyditto.ai.
+Ditto is a personal-memory assistant. These tools save, search, fetch, update, publish, and traverse the user's long-term memory and topic graph at https://heyditto.ai.
 
 The skill ships a single binary (`ditto`, from [`@heyditto/cli`](https://www.npmjs.com/package/@heyditto/cli)). Auth is via API key — stored in `~/.config/heyditto/cli/config.json` (preferred) or `DITTO_API_KEY` env (override).
 
@@ -75,7 +75,7 @@ ditto logout            # deletes ~/.config/heyditto/cli/config.json
 
 ## Tools
 
-Memories are **pairs** (one User turn + one Ditto turn) identified by a `pair_id`. **Subjects** are graph nodes for topics, identified by `subject_id`.
+Memories are **pairs** identified by a private `pair_id`. Public DittoHub shares use a `share_id`. **Subjects** are graph nodes for topics, identified by `subject_id`.
 
 ### `ditto save <content> [--source <s>] [--source-context <c>]`
 
@@ -85,23 +85,56 @@ Persist a memory pair from an external source. Use for explicit save requests, a
 ditto save "User prefers TypeScript over JavaScript for new projects." --source openclaw
 ```
 
-### `ditto search <query>...`
+### `ditto search <query>... [--include-public] [--filter-username <u>]`
 
-Semantic search across memories with learned retrieval weights. **Multiple positional args become an array of queries** — pass several to broaden recall. Returns lightweight previews ranked by composite score.
+Semantic search across memories with learned retrieval weights. **Multiple positional args become an array of queries** — pass several to broaden recall. Returns lightweight previews ranked by composite score. Add `--include-public` to search public DittoHub memories too, optionally scoped with `--filter-username`.
 
 ```bash
 ditto search "typescript preferences"
 ditto search "typescript" "language choices"
+ditto search "launch notes" --include-public --filter-username peyton
 ```
 
 Use `ditto fetch` afterwards if you need full conversation text.
 
-### `ditto fetch <pair-id>...`
+### `ditto fetch <id>... [--memory-format full|outline|blocks]`
 
-Fetch the full conversation text (User + Ditto turns) for memory pair ids returned by `ditto search`.
+Fetch memory content for private pair ids or public share ids. The default format is `full`; use `outline` to get stable block ids before a structured update, or `blocks` for full per-block bodies.
 
 ```bash
 ditto fetch 3a1084ae-235a-433d-9493-2335a0dfeb57
+ditto fetch 3a1084ae-235a-433d-9493-2335a0dfeb57 --memory-format outline
+```
+
+### `ditto list [--username <u>] [--limit <n>] [--offset <n>] [--source <s>]`
+
+List the user's saved memories, or public DittoHub publishes for a username.
+
+```bash
+ditto list --limit 10
+ditto list --username peyton --limit 10
+```
+
+### `ditto update <id> [--content <text>|--content-file <path>|--edits-json <json>|--edits-file <path>]`
+
+Edit a saved memory in place. Use `--content` or `--content-file` for full replacement. For targeted patches, fetch `--memory-format outline`, then pass block edits with the current revision from the prior `save` or `update` response.
+
+```bash
+ditto update <pair-id> --content-file revised.md
+ditto update <pair-id> \
+  --edits-json '[{"op":"replace_text","blockId":"2","find":"old","replace":"new","expectedCount":1}]' \
+  --base-revision <revision>
+```
+
+If the current revision is unknown, prefer full-content replacement over block edits.
+
+### `ditto publish <id>` / `ditto unpublish`
+
+Publish only after the user explicitly asks. `publish` uses Ditto's privacy scan; default mode blocks publishing if secrets are detected.
+
+```bash
+ditto publish <pair-id> --title "Launch notes" --privacy-mode scan_and_block
+ditto unpublish --share-id <share-id>
 ```
 
 ### `ditto subjects <query> [--top-k <n>]`
@@ -112,12 +145,13 @@ Search the subject graph. Returns subject IDs you can feed into `ditto memories`
 ditto subjects "memory architecture" --top-k 5
 ```
 
-### `ditto memories <subject-id>...`
+### `ditto memories <subject-id>... [--query <q>]`
 
 Get memory previews scoped to specific subjects. Use after `ditto subjects` when you want depth on a known topic.
 
 ```bash
 ditto memories 3a1084ae-235a-433d-9493-2335a0dfeb57
+ditto memories 3a1084ae-235a-433d-9493-2335a0dfeb57 --query "deployment tradeoffs"
 ```
 
 ### `ditto network <pair-id> [--limit <n>]`

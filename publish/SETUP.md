@@ -18,6 +18,9 @@ Verify the binary is on `PATH`:
 ditto --version
 ```
 
+Use `@heyditto/cli` 1.2.0 or newer for the current `fetch --memory-format`,
+`update`, and `publish` commands.
+
 ## 2. Get a key + log in
 
 Visit **https://app.heyditto.ai/connect/openclaw** — one-page sign-in (GitHub / Google / email), click **New key**, copy.
@@ -45,7 +48,9 @@ Should print:
 endpoint:  https://api.heyditto.ai/mcp
 api key:   set  (source: config)
 tools:     fetch_memories, get_memory_network, save_memory,
-           search_memories, search_memories_in_subjects, search_subjects
+           list_memories, list_my_memories, publish_memory,
+           search_memories, search_memories_in_subjects, search_subjects,
+           unpublish_memory, update_memory
 ```
 
 ```bash
@@ -63,6 +68,7 @@ OpenClaw will now use Ditto memory automatically when the conversation calls for
 | Symptom | Fix |
 |---|---|
 | `ditto: command not found` | Reopen your shell or run `which npm` to confirm the npm prefix is on `PATH`. |
+| `Unknown option '--memory-format'` or `Unknown command: update/publish` | Update the CLI with `npm install -g @heyditto/cli@latest`. |
 | `error: no Ditto API key configured` | Run `ditto login <key>` (key from https://app.heyditto.ai/connect/openclaw). |
 | `ditto status` shows `source: env` but you wanted `config` | The env var overrides. Run `unset DITTO_API_KEY` (and remove from `~/.zshrc` / `~/.bashrc` if persisted). |
 | Connection failures | Verify the key with `ditto status`; rotate via `ditto logout && ditto login <new-key>`. |
