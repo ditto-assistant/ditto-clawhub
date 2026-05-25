@@ -100,7 +100,7 @@ If `ditto status` reports `MISSING (source: none)` or any command exits with `er
    ```bash
    ditto init --agent --agent-caller openclaw --json
    ```
-   This returns a working API key plus a short `claimURL` for later human ownership. Share the `claimURL`, not the `ditto_mcp_...` API key. Do not ask the user for email, OTP, dashboard setup, or browser login.
+   This returns a working API key plus a short `claimURL` for later human ownership. Share the `claimURL`, not the `ditto_mcp_...` API key. The claim token is carried in the URL fragment (`#t=...`). Do not ask the user for email, OTP, dashboard setup, or browser login.
 2. If the user already has a `ditto_mcp_…` key and wants to use it, run:
    ```bash
    ditto login <key>

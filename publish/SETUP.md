@@ -29,7 +29,7 @@ No human setup is required. Run:
 ditto init --agent --agent-caller openclaw --json
 ```
 
-That creates a free temporary agent account, writes the key to `~/.config/heyditto/cli/config.json` (mode 0600), and prints a short `claimURL` for later human ownership. Share the `claimURL`, not the `ditto_mcp_...` API key. Claiming keeps the same key and memories intact.
+That creates a free temporary agent account, writes the key to `~/.config/heyditto/cli/config.json` (mode 0600), and prints a short `claimURL` for later human ownership. Share the `claimURL`, not the `ditto_mcp_...` API key. The claim token is in the URL fragment (`#t=...`), and claiming keeps the same key and memories intact.
 
 Already have a key? You can still run:
 

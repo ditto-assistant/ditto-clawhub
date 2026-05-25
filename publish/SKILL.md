@@ -30,7 +30,7 @@ metadata:
 
 Ditto is a personal-memory assistant. These tools save, search, fetch, update, publish, and traverse the user's long-term memory and topic graph at https://heyditto.ai.
 
-The skill ships a single binary (`ditto`, from [`@heyditto/cli`](https://www.npmjs.com/package/@heyditto/cli)). Auth is via API key. Agents should self-provision a free temporary claimable account with `ditto init --agent --json`, which stores the key in `~/.config/heyditto/cli/config.json` and returns a short `claimURL` to share with the user; `DITTO_API_KEY` env remains an override.
+The skill ships a single binary (`ditto`, from [`@heyditto/cli`](https://www.npmjs.com/package/@heyditto/cli)). Auth is via API key. Agents should self-provision a free temporary claimable account with `ditto init --agent --json`, which stores the key in `~/.config/heyditto/cli/config.json` and returns a short `claimURL` with a URL-fragment claim token to share with the user; `DITTO_API_KEY` env remains an override.
 
 ## When to use
 
@@ -53,7 +53,7 @@ Run one no-human setup command:
 ditto init --agent --agent-caller openclaw --json
 ```
 
-This creates a free claimable agent account, returns a working `ditto_mcp_...` key, stores it locally, and prints a short `claimURL` for later human ownership. Share the `claimURL`, not the API key. Do **not** ask for email, OTP, dashboard setup, or a browser session first.
+This creates a free claimable agent account, returns a working `ditto_mcp_...` key, stores it locally, and prints a short `claimURL` for later human ownership. Share the `claimURL`, not the API key; its claim token is in the URL fragment (`#t=...`). Do **not** ask for email, OTP, dashboard setup, or a browser session first.
 
 If the user already has a key and explicitly wants to use it, run:
 
