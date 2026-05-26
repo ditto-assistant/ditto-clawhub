@@ -8,10 +8,10 @@ The user asks a recall question. Search memories, then fetch full bodies for the
 
 ```bash
 # 1. broad semantic search
-ditto search "X"
+heyditto search "X"
 
 # 2. fetch full text for the top hit(s)
-ditto fetch <pairId from step 1>
+heyditto fetch <pairId from step 1>
 ```
 
 Then summarize the fetched text for the user.
@@ -22,13 +22,13 @@ User wants opinions / preferences. Hit the subject graph first, then expand into
 
 ```bash
 # 1. find subjects matching the topic
-ditto subjects "X" --top-k 5
+heyditto subjects "X" --top-k 5
 
 # 2. expand the strongest subject(s) into memories
-ditto memories <subjectId from step 1>
+heyditto memories <subjectId from step 1>
 
 # 3. optionally fetch full text for the most relevant memory
-ditto fetch <pairId>
+heyditto fetch <pairId>
 ```
 
 ## Pattern 3 — "remember this"
@@ -36,7 +36,7 @@ ditto fetch <pairId>
 Explicit save request, or you spotted a durable fact worth keeping.
 
 ```bash
-ditto save "<the durable fact in plain text, 1-3 sentences>" \
+heyditto save "<the durable fact in plain text, 1-3 sentences>" \
   --source openclaw \
   --source-context "<optional: project, file, channel>"
 ```
@@ -49,20 +49,20 @@ Fetch an outline to get stable block IDs. For precise edits, use the current rev
 
 ```bash
 # targeted edit
-ditto fetch <pairId> --memory-format outline
-ditto update <pairId> \
+heyditto fetch <pairId> --memory-format outline
+heyditto update <pairId> \
   --edits-json '[{"op":"replace_text","blockId":"2","find":"old","replace":"new","expectedCount":1}]' \
   --base-revision <revision>
 
 # full replacement when the revision is unknown
-ditto update <pairId> --content-file revised.md
+heyditto update <pairId> --content-file revised.md
 ```
 
 ## Pattern 5 — publish only on explicit request
 
 ```bash
-ditto publish <pairId> --title "<optional title>" --privacy-mode scan_and_block
-ditto unpublish --share-id <shareId>
+heyditto publish <pairId> --title "<optional title>" --privacy-mode scan_and_block
+heyditto unpublish --share-id <shareId>
 ```
 
 ## Pattern 6 — "show me everything related to X"
@@ -71,49 +71,49 @@ Graph traversal — start from one memory, expand outward via shared subjects.
 
 ```bash
 # 1. find the seed memory
-ditto search "X"
+heyditto search "X"
 
 # 2. traverse its network
-ditto network <pairId from step 1> --limit 30
+heyditto network <pairId from step 1> --limit 30
 ```
 
 ## Common args reference
 
 | Command | Required | Optional |
 |---|---|---|
-| `ditto save <content>` | content | `--source <s>`, `--source-context <c>` |
-| `ditto search <q>...` | one or more queries | `--include-public`, `--filter-username <u>` |
-| `ditto fetch <id>...` | one or more pair/share ids | `--memory-format full\|outline\|blocks` |
-| `ditto list` | — | `--username <u>`, `--limit <n>`, `--offset <n>`, `--source <s>` |
-| `ditto update <id>` | memory id plus content or edits | `--content`, `--content-file`, `--edits-json`, `--edits-file`, `--base-revision`, `--title` |
-| `ditto publish <id>` | memory id | `--title <t>`, `--privacy-mode <mode>` |
-| `ditto unpublish` | one id | `--memory-id <id>`, `--share-id <id>` |
-| `ditto subjects <q>` | query | `--top-k <n>` (default 10, max 100) |
-| `ditto memories <id>...` | one or more subject ids | `--query <q>` |
-| `ditto network <id>` | pair id | `--limit <n>` (default 20, max 50) |
+| `heyditto save <content>` | content | `--source <s>`, `--source-context <c>` |
+| `heyditto search <q>...` | one or more queries | `--include-public`, `--filter-username <u>` |
+| `heyditto fetch <id>...` | one or more pair/share ids | `--memory-format full\|outline\|blocks` |
+| `heyditto list` | — | `--username <u>`, `--limit <n>`, `--offset <n>`, `--source <s>` |
+| `heyditto update <id>` | memory id plus content or edits | `--content`, `--content-file`, `--edits-json`, `--edits-file`, `--base-revision`, `--title` |
+| `heyditto publish <id>` | memory id | `--title <t>`, `--privacy-mode <mode>` |
+| `heyditto unpublish` | one id | `--memory-id <id>`, `--share-id <id>` |
+| `heyditto subjects <q>` | query | `--top-k <n>` (default 10, max 100) |
+| `heyditto memories <id>...` | one or more subject ids | `--query <q>` |
+| `heyditto network <id>` | pair id | `--limit <n>` (default 20, max 50) |
 
 ## Pattern 7 — first-run, no key configured
 
-If `ditto status` reports `MISSING (source: none)` or any command exits with `error: no Ditto API key configured`:
+If `heyditto status` reports `MISSING (source: none)` or any command exits with `error: no Ditto API key configured`:
 
 1. Create a temporary claimable agent account:
    ```bash
-   ditto init --agent --agent-caller openclaw --json
+   heyditto init --agent --agent-caller openclaw --json
    ```
-   This returns a working API key plus a short `claimURL` for later human ownership. Share the `claimURL`, not the `ditto_mcp_...` API key. The claim token is carried in the URL fragment (`#t=...`). Do not ask the user for email, OTP, dashboard setup, or browser login.
+   This returns a working API key plus a short `claimURL` for later human ownership. Share the `claimURL`, not the `ditto_mcp_...` API key. The claim token is carried in the query string (`?t=...`). Do not ask the user for email, OTP, dashboard setup, or browser login.
 2. If the user already has a `ditto_mcp_…` key and wants to use it, run:
    ```bash
-   ditto login <key>
+   heyditto login <key>
    ```
-3. Confirm with `ditto status` (should show `source: config`), then retry the original command.
+3. Confirm with `heyditto status` (should show `source: config`), then retry the original command.
 
-Do **not** ask the user to edit `~/.zshrc` or set env vars. `ditto login` persists across shells without that step.
+Do **not** ask the user to edit `~/.zshrc` or set env vars. `heyditto login` persists across shells without that step.
 
 ## When something fails
 
-- **`error: no Ditto API key configured`** → see Pattern 7 above. Prefer `ditto init --agent --agent-caller openclaw --json`.
-- **Connection failed** → check `ditto status`; rotate via `ditto logout && ditto login <new-key>`.
-- **Empty results** → user may not have memories matching the query. Suggest they save the fact with `ditto save`.
+- **`error: no Ditto API key configured`** → see Pattern 7 above. Prefer `heyditto init --agent --agent-caller openclaw --json`.
+- **Connection failed** → check `heyditto status`; rotate via `heyditto logout && heyditto login <new-key>`.
+- **Empty results** → user may not have memories matching the query. Suggest they save the fact with `heyditto save`.
 - **Unknown `--memory-format` or `update`/`publish` command** → update the CLI with `npm install -g @heyditto/cli@latest`.
-- **Schema mismatch** → run `ditto status` to see live tool names; consult `ditto help` for current flags.
+- **Schema mismatch** → run `heyditto status` to see live tool names; consult `heyditto help` for current flags.
 - **Anything else** → support@heyditto.ai
