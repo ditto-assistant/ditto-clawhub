@@ -15,30 +15,34 @@ npm install -g @heyditto/cli
 Verify the binary is on `PATH`:
 
 ```bash
-ditto --version
+heyditto --version
 ```
 
 Use `@heyditto/cli` 1.2.0 or newer for the current `fetch --memory-format`,
 `update`, and `publish` commands.
 
-## 2. Get a key + log in
+## 2. Create a claimable agent account
 
-Visit **https://app.heyditto.ai/connect/openclaw** — one-page sign-in (GitHub / Google / email), click **New key**, copy.
-
-Then:
+No human setup is required. Run:
 
 ```bash
-ditto login <paste-key>
+heyditto init --agent --agent-caller openclaw --json
 ```
 
-That writes the key to `~/.config/heyditto/cli/config.json` (mode 0600). Persists across shells. Done.
+That creates a free temporary agent account, writes the key to `~/.config/heyditto/cli/config.json` (mode 0600), and prints a short `claimURL` for later human ownership. Share the `claimURL`, not the `ditto_mcp_...` API key. The claim token is in the query string (`?t=...`), and claiming keeps the same key and memories intact.
+
+Already have a key? You can still run:
+
+```bash
+heyditto login <paste-key>
+```
 
 > Prefer env vars? `export DITTO_API_KEY=ditto_mcp_…` works too — env always wins over the saved key.
 
 ## 3. Smoke test
 
 ```bash
-ditto status
+heyditto status
 ```
 
 Should print:
@@ -54,24 +58,24 @@ tools:     fetch_memories, get_memory_network, save_memory,
 ```
 
 ```bash
-ditto subjects "test"
+heyditto subjects "test"
 ```
 
 Should return JSON results from your account.
 
 ## You're done
 
-OpenClaw will now use Ditto memory automatically when the conversation calls for it. See `examples.md` (or `ditto help`) for the full command reference.
+OpenClaw will now use Ditto memory automatically when the conversation calls for it. See `examples.md` (or `heyditto help`) for the full command reference.
 
 ## Troubleshooting
 
 | Symptom | Fix |
 |---|---|
-| `ditto: command not found` | Reopen your shell or run `which npm` to confirm the npm prefix is on `PATH`. |
+| `heyditto: command not found` | Reopen your shell or run `which npm` to confirm the npm prefix is on `PATH`. |
 | `Unknown option '--memory-format'` or `Unknown command: update/publish` | Update the CLI with `npm install -g @heyditto/cli@latest`. |
-| `error: no Ditto API key configured` | Run `ditto login <key>` (key from https://app.heyditto.ai/connect/openclaw). |
-| `ditto status` shows `source: env` but you wanted `config` | The env var overrides. Run `unset DITTO_API_KEY` (and remove from `~/.zshrc` / `~/.bashrc` if persisted). |
-| Connection failures | Verify the key with `ditto status`; rotate via `ditto logout && ditto login <new-key>`. |
+| `error: no Ditto API key configured` | Run `heyditto init --agent --agent-caller openclaw --json` for no-human setup, or `heyditto login <key>` if you already have a key. |
+| `heyditto status` shows `source: env` but you wanted `config` | The env var overrides. Run `unset DITTO_API_KEY` (and remove from `~/.zshrc` / `~/.bashrc` if persisted). |
+| Connection failures | Verify the key with `heyditto status`; rotate via `heyditto logout && heyditto login <new-key>`. |
 
 ## Where to get help
 
