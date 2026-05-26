@@ -31,6 +31,8 @@ heyditto init --agent --agent-caller openclaw --json
 
 That creates a free temporary agent account, writes the key to `~/.config/heyditto/cli/config.json` (mode 0600), and prints a short `claimURL` for later human ownership. Share the `claimURL`, not the `ditto_mcp_...` API key. The claim token is in the query string (`?t=...`), and claiming keeps the same key and memories intact.
 
+> **Name the agent at init.** The `--agent-caller` value is set **once, at account creation** and cannot yet be changed afterward from the CLI. It labels every memory the agent saves: after the account is claimed, the agent's memories appear in the owner's graph as an *external agent thread* titled by this name. The example uses `openclaw`; if the user has already chosen a name for their agent, pass that instead (e.g. `--agent-caller "NAME_OF_AGENT"`). Decide the name before running `init` — don't omit `--agent-caller`, or it defaults to the generic `agent`.
+
 Already have a key? You can still run:
 
 ```bash

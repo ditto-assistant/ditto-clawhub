@@ -55,6 +55,8 @@ heyditto init --agent --agent-caller openclaw --json
 
 This creates a free claimable agent account, returns a working `ditto_mcp_...` key, stores it locally, and prints a short `claimURL` for later human ownership. Share the `claimURL`, not the API key; its claim token is in the query string (`?t=...`). Do **not** ask for email, OTP, dashboard setup, or a browser session first.
 
+Set `--agent-caller` to the agent's name (or a name the user has chosen): it is set **once at init**, labels every saved memory as an external agent thread in the owner's graph, and can't yet be renamed afterward — so decide it up front rather than letting it default to the generic `agent`.
+
 If the user already has a key and explicitly wants to use it, run:
 
 ```bash
