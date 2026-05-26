@@ -1,0 +1,11 @@
+{
+  "version": 1,
+  "skills": {
+    "handle-review-comments": {
+      "source": "ditto-assistant/ditto-internal-skills",
+      "sourceType": "github",
+      "skillPath": "skills/handle-review-comments/SKILL.md",
+      "computedHash": "4f5600e8f322c1ba4b21ea023fac9c07b60d03acd9ad8f39b7e82e8eb25ed524"
+    }
+  }
+}
