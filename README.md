@@ -49,7 +49,7 @@ OpenClaw user                                                    OpenClaw agent
                                        https://api.heyditto.ai/mcp ──┘
 ```
 
-Auth is API key. Agents can self-provision with `heyditto init --agent --json`; they share the short `claimURL` with users and keep the `ditto_mcp_...` key local. The claim token lives in the link's `?t=...` query parameter. `DITTO_API_KEY` env wins as override; otherwise the file. No `.zshrc` editing required.
+Auth is API key. Agents can self-provision with `heyditto init --agent --agent-caller openclaw --json`; they share the short `claimURL` with users and keep the `ditto_mcp_...` key local. The claim token lives in the link's `?t=...` query parameter. `DITTO_API_KEY` env wins as override; otherwise the file. No `.zshrc` editing required.
 
 The browser-OAuth flow lives separately in [`ditto-mcp`](https://github.com/ditto-assistant/ditto-mcp) (`@heyditto/mcp` on npm) for Claude Desktop / Cursor.
 

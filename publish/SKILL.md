@@ -30,7 +30,7 @@ metadata:
 
 Ditto is a personal-memory assistant. These tools save, search, fetch, update, publish, and traverse the user's long-term memory and topic graph at https://heyditto.ai.
 
-The skill ships a single binary (`heyditto`, from [`@heyditto/cli`](https://www.npmjs.com/package/@heyditto/cli)). Auth is via API key. Agents should self-provision a free temporary claimable account with `heyditto init --agent --json`, which stores the key in `~/.config/heyditto/cli/config.json` and returns a short `claimURL` with a query-string claim token to share with the user; `DITTO_API_KEY` env remains an override.
+The skill ships a single binary (`heyditto`, from [`@heyditto/cli`](https://www.npmjs.com/package/@heyditto/cli)). Auth is via API key. Agents should self-provision a free temporary claimable account with `heyditto init --agent --agent-caller openclaw --json`, which stores the key in `~/.config/heyditto/cli/config.json` and returns a short `claimURL` with a query-string claim token to share with the user; `DITTO_API_KEY` env remains an override.
 
 ## When to use
 
@@ -99,7 +99,7 @@ heyditto search "typescript" "language choices"
 heyditto search "launch notes" --include-public --filter-username peyton
 ```
 
-Use `heyditto fetch` afterwards if you need full conversation text.
+Use `heyditto fetch` afterward if you need full conversation text.
 
 ### `heyditto fetch <id>... [--memory-format full|outline|blocks]`
 
@@ -179,5 +179,5 @@ All commands emit JSON by default — pipe through `jq` for shaping. `heyditto c
 - **CLI on npm:** https://www.npmjs.com/package/@heyditto/cli (`npm i -g @heyditto/cli`)
 - **Skill repo:** https://github.com/ditto-assistant/ditto-clawhub
 - **CLI repo:** https://github.com/ditto-assistant/ditto-cli
-- **Claim an agent account:** run `heyditto init --agent --json`, then open the printed `claimURL`
+- **Claim an agent account:** run `heyditto init --agent --agent-caller openclaw --json`, then open the printed `claimURL`
 - **Account / backend support:** support@heyditto.ai
