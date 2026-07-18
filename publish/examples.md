@@ -2,7 +2,7 @@
 
 End-to-end patterns the agent should follow when invoking Ditto from openclaw.
 
-## Pattern 1 — "what did I say about X"
+## Pattern 1 - "what did I say about X"
 
 The user asks a recall question. Search memories, then fetch full bodies for the top hits.
 
@@ -16,7 +16,7 @@ heyditto fetch <pairId from step 1>
 
 Then summarize the fetched text for the user.
 
-## Pattern 2 — "what do I think about X"
+## Pattern 2 - "what do I think about X"
 
 User wants opinions / preferences. Hit the subject graph first, then expand into memories on the matching subject.
 
@@ -31,7 +31,7 @@ heyditto memories <subjectId from step 1>
 heyditto fetch <pairId>
 ```
 
-## Pattern 3 — "remember this"
+## Pattern 3 - "remember this"
 
 Explicit save request, or you spotted a durable fact worth keeping.
 
@@ -43,7 +43,7 @@ heyditto save "<the durable fact in plain text, 1-3 sentences>" \
 
 Then confirm to the user: "Saved."
 
-## Pattern 4 — correct an existing memory
+## Pattern 4 - correct an existing memory
 
 Fetch an outline to get stable block IDs. For precise edits, use the current revision from a prior `save` or `update` response; otherwise use full replacement.
 
@@ -58,16 +58,16 @@ heyditto update <pairId> \
 heyditto update <pairId> --content-file revised.md
 ```
 
-## Pattern 5 — publish only on explicit request
+## Pattern 5 - publish only on explicit request
 
 ```bash
 heyditto publish <pairId> --title "<optional title>" --privacy-mode scan_and_block
 heyditto unpublish --share-id <shareId>
 ```
 
-## Pattern 6 — "show me everything related to X"
+## Pattern 6 - "show me everything related to X"
 
-Graph traversal — start from one memory, expand outward via shared subjects.
+Graph traversal - start from one memory, expand outward via shared subjects.
 
 ```bash
 # 1. find the seed memory
@@ -77,6 +77,28 @@ heyditto search "X"
 heyditto network <pairId from step 1> --limit 30
 ```
 
+## Pattern 7 - save public X/Twitter research from TweetClaw
+
+When the user uses [TweetClaw](https://github.com/Xquik-dev/tweetclaw) beside Ditto, keep TweetClaw responsible for X/Twitter automation and Ditto responsible for long-term memory. TweetClaw can search tweets, search tweet replies, export followers, look up users, monitor tweets, and prepare approval-reviewed post tweets or post tweet replies. Ditto should save the user's durable conclusion, not raw timelines, private messages, API keys, or unreviewed drafts.
+
+```bash
+# 1. user asks for public X/Twitter research
+# TweetClaw returns reviewed public findings with tweet URLs or IDs
+
+# 2. save only the durable summary and source context
+heyditto save "For launch monitoring, prioritize replies from existing customers and posts that mention pricing confusion. Recheck after the next release announcement." \
+  --source openclaw \
+  --source-context "tweetclaw: reviewed <tweet URL or ID>, <tweet URL or ID>; searched tweets and replies for the release URL"
+```
+
+Use the native OpenClaw plugin install when the user needs that workflow:
+
+```bash
+openclaw plugins install @xquik/tweetclaw
+```
+
+Xquik is an independent third-party service. Not affiliated with X Corp. "Twitter" and "X" are trademarks of X Corp.
+
 ## Common args reference
 
 | Command | Required | Optional |
@@ -84,7 +106,7 @@ heyditto network <pairId from step 1> --limit 30
 | `heyditto save <content>` | content | `--source <s>`, `--source-context <c>` |
 | `heyditto search <q>...` | one or more queries | `--include-public`, `--filter-username <u>` |
 | `heyditto fetch <id>...` | one or more pair/share ids | `--memory-format full\|outline\|blocks` |
-| `heyditto list` | — | `--username <u>`, `--limit <n>`, `--offset <n>`, `--source <s>` |
+| `heyditto list` | - | `--username <u>`, `--limit <n>`, `--offset <n>`, `--source <s>` |
 | `heyditto update <id>` | memory id plus content or edits | `--content`, `--content-file`, `--edits-json`, `--edits-file`, `--base-revision`, `--title` |
 | `heyditto publish <id>` | memory id | `--title <t>`, `--privacy-mode <mode>` |
 | `heyditto unpublish` | one id | `--memory-id <id>`, `--share-id <id>` |
@@ -92,7 +114,7 @@ heyditto network <pairId from step 1> --limit 30
 | `heyditto memories <id>...` | one or more subject ids | `--query <q>` |
 | `heyditto network <id>` | pair id | `--limit <n>` (default 20, max 50) |
 
-## Pattern 7 — first-run, no key configured
+## Pattern 8 - first-run, no key configured
 
 If `heyditto status` reports `MISSING (source: none)` or any command exits with `error: no Ditto API key configured`:
 
@@ -111,7 +133,7 @@ Do **not** ask the user to edit `~/.zshrc` or set env vars. `heyditto login` per
 
 ## When something fails
 
-- **`error: no Ditto API key configured`** → see Pattern 7 above. Prefer `heyditto init --agent --agent-caller openclaw --json`.
+- **`error: no Ditto API key configured`** → see Pattern 8 above. Prefer `heyditto init --agent --agent-caller openclaw --json`.
 - **Connection failed** → check `heyditto status`; rotate via `heyditto logout && heyditto login <new-key>`.
 - **Empty results** → user may not have memories matching the query. Suggest they save the fact with `heyditto save`.
 - **Unknown `--memory-format` or `update`/`publish` command** → update the CLI with `npm install -g @heyditto/cli@latest`.
