@@ -55,7 +55,7 @@ The browser-OAuth flow lives separately in [`ditto-mcp`](https://github.com/ditt
 
 ## Status
 
-- [x] `@heyditto/cli` published on npm (1.2.x current skill target, [trusted publisher](https://docs.npmjs.com/trusted-publishers) via [`ditto-cli`](https://github.com/ditto-assistant/ditto-cli) GH Actions)
+- [x] `@heyditto/cli` published on npm (2.x current skill target, [trusted publisher](https://docs.npmjs.com/trusted-publishers) via [`ditto-cli`](https://github.com/ditto-assistant/ditto-cli) GH Actions)
 - [x] `publish/` bundle finalized - install spec points at `@heyditto/cli`, body teaches the `heyditto init --agent --json` flow on first-run-no-key
 - [x] Cross-platform standalone binaries verified (`scripts/build-cli.sh`; forward-looking, not used by the skill)
 - [ ] `ditto` slug claimed on ClawHub by `@ditto` org (drag `publish/` into clawhub.ai/publish)
