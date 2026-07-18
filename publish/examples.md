@@ -88,7 +88,7 @@ When the user uses [TweetClaw](https://github.com/Xquik-dev/tweetclaw) beside Di
 # 2. save only the durable summary and source context
 heyditto save "For launch monitoring, prioritize replies from existing customers and posts that mention pricing confusion. Recheck after the next release announcement." \
   --source openclaw \
-  --source-context "tweetclaw:search tweets and search tweet replies for the release URL"
+  --source-context "tweetclaw: reviewed <tweet URL or ID>, <tweet URL or ID>; searched tweets and replies for the release URL"
 ```
 
 Use the native OpenClaw plugin install when the user needs that workflow:

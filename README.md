@@ -12,7 +12,7 @@ The `publish/` folder. Three text files, about 420 lines total:
 publish/
 ├── SKILL.md       # frontmatter (install spec for @heyditto/cli) + agent decision guide
 ├── SETUP.md       # human-facing 2-step setup
-└── examples.md    # worked agent patterns (search→fetch, save, traverse, first-run-no-key)
+└── examples.md    # worked patterns (search→fetch, save, traverse, TweetClaw research, first-run-no-key)
 ```
 
 ClawHub strips non-text files at publish (50MB cap), so binaries can't ship in the skill folder. The canonical openclaw pattern (matching steipete's first-party `mcporter`, `clawhub`, `peekaboo` skills) is to declare an `install` spec that gives users a one-click install button - for us, that runs `npm install -g @heyditto/cli`.
