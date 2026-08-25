@@ -85,7 +85,7 @@ Memories are **pairs** identified by a private `pair_id`. Public DittoHub shares
 
 ### `heyditto save <content> [--source <s>] [--source-context <c>]`
 
-Persist a memory pair from an external source. Use for explicit save requests, and proactively for durable preferences, decisions, relationships, or facts. `--source` defaults to `"cli"`; pass `"openclaw"`, `"document"`, `"note"`, etc. when relevant. `--source-context` can hold a file path, URL, or project name.
+Save a document or note to the user's memory base. Use for explicit save requests, and proactively for durable preferences, decisions, relationships, or facts. `--source` defaults to `"cli"`; pass `"openclaw"`, `"document"`, `"note"`, etc. when relevant. `--source-context` can hold a file path, URL, or project name.
 
 ```bash
 heyditto save "User prefers TypeScript over JavaScript for new projects." --source openclaw
