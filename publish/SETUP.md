@@ -54,7 +54,7 @@ Should print:
 endpoint:  https://api.heyditto.ai/mcp
 api key:   set  (source: config)
 tools:     fetch_memories, get_memory_network, save_memory,
-           list_memories, list_my_memories, publish_memory,
+           list_memories, publish_memory,
            search_memories, search_memories_in_subjects, search_subjects,
            unpublish_memory, update_memory
 ```
