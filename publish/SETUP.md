@@ -18,8 +18,8 @@ Verify the binary is on `PATH`:
 heyditto --version
 ```
 
-Use `@heyditto/cli` 1.2.0 or newer for the current `fetch --memory-format`,
-`update`, and `publish` commands.
+Use `@heyditto/cli` 3.19.0 or newer for the current `fetch --memory-format`,
+`update`, `publish`, client identification, and owner consent flow.
 
 ## 2. Create a claimable agent account
 
@@ -62,6 +62,8 @@ tools:     fetch_memories, get_memory_network, save_memory,
 ```bash
 heyditto subjects "test"
 ```
+
+If the account has not accepted Ditto's Terms of Service and AI processing, ask its owner to run `heyditto consent` and accept in the browser before the smoke test. An unclaimed agent account must be claimed first; its owner accepts during claiming.
 
 Should return JSON results from your account.
 

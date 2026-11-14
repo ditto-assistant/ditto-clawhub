@@ -85,7 +85,7 @@ Memories are **pairs** identified by a private `pair_id`. Public DittoHub shares
 
 ### `heyditto save <content> [--source <s>] [--source-context <c>]`
 
-Persist a memory pair from an external source. Use for explicit save requests, and proactively for durable preferences, decisions, relationships, or facts. `--source` defaults to `"cli"`; pass `"openclaw"`, `"document"`, `"note"`, etc. when relevant. `--source-context` can hold a file path, URL, or project name.
+Persist a memory pair from an external source. Use for explicit save requests, and proactively for durable preferences, decisions, relationships, or facts. `--source` defaults to `"cli"`; pass `"openclaw"`, `"document"`, `"note"`, etc. when relevant. `--source-context` can hold a file path, URL, or project name. If Ditto reports that this account has not accepted its Terms of Service and AI processing, do not retry model-backed tools or claim the task is complete. Ask the account owner to run `heyditto consent` and accept in the browser. If the account was created by an agent and is unclaimed, share its claim link first; the owner accepts during claiming.
 
 ```bash
 heyditto save "User prefers TypeScript over JavaScript for new projects." --source openclaw
@@ -174,7 +174,7 @@ All commands emit JSON by default — pipe through `jq` for shaping. `heyditto c
 
 ## Authoritative reference
 
-`heyditto status` prints the live tool list straight from the MCP — trust it over this file if anything drifts.
+`heyditto status` prints the live tool list straight from the MCP — trust it over this file if anything drifts. Use CLI version 3.19.0 or newer for the owner consent flow; if Ditto refuses a call pending Terms and AI processing consent, ask the account owner to run `heyditto consent` and accept in the browser. An unclaimed agent account must be claimed first.
 
 ## Source + support
 
